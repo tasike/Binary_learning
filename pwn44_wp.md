@@ -107,3 +107,4 @@ r.sendline("/bin/sh")
 r.interactive()
 ```
 
+> 首先利用`pop_rdi`指令将`buf2`的地址加载到`rdi`寄存器中。调用`gets`函数，以`buf2`的地址作为参数，从用户输入中读取数据，并将其存储在`buf2`中。再次利用`pop_rdi`指令将`buf2`的地址加载到`rdi`寄存器中。调用`system`函数，以`buf2`的地址作为参数，执行指定的命令。
