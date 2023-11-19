@@ -156,7 +156,7 @@ std::string::basic_string((int)v12, (int)&unk_804D0B8);
 
 查看一下字符串(`Fn + Shift + F12`)，会发现有`cat /ctfshow_flag`
 
-==查看交叉引用==：双击该字符串，进入`IDA View-A`窗口，单击该字符串，`ctrl + x`即可查看交叉引用
+**查看交叉引用**：双击该字符串，进入`IDA View-A`窗口，单击该字符串，`ctrl + x`即可查看交叉引用
 
 ![](交叉引用.png)
 
